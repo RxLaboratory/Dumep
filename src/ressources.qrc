@@ -1,0 +1,24 @@
+<RCC>
+    <qresource prefix="/icones">
+        <file alias="duduf">icones/duduf.png</file>
+        <file alias="folder_add">icones/folder_add.png</file>
+        <file alias="folder_open">icones/folder_open.png</file>
+        <file alias="dumep">icones/icone_dumep.png</file>
+        <file alias="loop">icones/loop.png</file>
+        <file alias="next">icones/next.png</file>
+        <file alias="next_frame">icones/next_frame.png</file>
+        <file alias="params">icones/params.png</file>
+        <file alias="pause">icones/pause.png</file>
+        <file alias="play">icones/play.png</file>
+        <file alias="prev_frame">icones/prev_frame.png</file>
+        <file alias="previous">icones/previous.png</file>
+        <file alias="quit">icones/quit.png</file>
+        <file alias="reduce">icones/reduce.png</file>
+        <file alias="shuffle">icones/shuffle.png</file>
+        <file alias="stop">icones/stop.png</file>
+        <file alias="favs">icones/favs.png</file>
+        <file alias="file">icones/file.png</file>
+        <file alias="stream">icones/stream.png</file>
+        <file>logo.png</file>
+    </qresource>
+</RCC>
