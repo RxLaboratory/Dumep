@@ -19,6 +19,6 @@
         <file alias="favs">icones/favs.png</file>
         <file alias="file">icones/file.png</file>
         <file alias="stream">icones/stream.png</file>
-        <file>logo.png</file>
+        <file>icones/logo.png</file>
     </qresource>
 </RCC>

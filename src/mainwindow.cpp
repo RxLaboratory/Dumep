@@ -411,6 +411,7 @@ void MainWindow::on_actionA_Propos_triggered()
 
 void MainWindow::mediaChanged(int position)
 {
+    qDebug() << "media changed";
     if (progra) return;
 
     //virer le gras du tableau
@@ -437,6 +438,7 @@ void MainWindow::mediaChanged(int position)
 
 void MainWindow::playerMetaDataChanged()
 {
+    qDebug() << "metadata changed";
     //chopper les metadatas si y en a
     if (!player->isMetaDataAvailable()) return;
     QString tout = "";
@@ -457,6 +459,7 @@ void MainWindow::playerMetaDataChanged()
 
 void MainWindow::mediaDurationChanged(qint64 duration)
 {
+    qDebug() << "duration changed";
     if (duration == 0)
     {
         playControls->setEnabled(false);
@@ -472,35 +475,43 @@ void MainWindow::mediaDurationChanged(qint64 duration)
 
 void MainWindow::mediaPositionChanged(qint64 position)
 {
+    qDebug() << "position changed";
     progra = true;
     seekBar->setValue(position);
+    currentTCLabel->setText(this->msToTC(position));
     progra = false;
 }
 
 void MainWindow::seeked(int position)
 {
+    if (progra) return;
+    qDebug() << "seeked";
 
-        currentTCLabel->setText(this->msToTC(position));
-        if (progra) return;
-        player->setPosition(seekBar->value());
+    currentTCLabel->setText(this->msToTC(position));
+
+    player->setPosition(seekBar->value());
 }
 
 void MainWindow::mediaStateChanged(QMediaPlayer::State state)
 {
+
     progra = true;
     if (state == QMediaPlayer::PausedState)
     {
+        qDebug() << "player state paused";
         actionLecture->setChecked(false);
         this->setWindowIcon(QIcon(":/icones/pause"));
     }
     else if (state == QMediaPlayer::StoppedState)
     {
+        qDebug() << "player state stopped";
         actionLecture->setChecked(false);
         playControls->setEnabled(false);
         this->setWindowIcon(QIcon(":/icones/stop"));
     }
     else if (state == QMediaPlayer::PlayingState)
     {
+        qDebug() << "player state playing";
         actionLecture->setChecked(true);
         this->setWindowIcon(QIcon(":/icones/play"));
     }
@@ -509,6 +520,7 @@ void MainWindow::mediaStateChanged(QMediaPlayer::State state)
 
 void MainWindow::mediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
+    qDebug() << "media status changed";
     if (status == QMediaPlayer::UnknownMediaStatus)
     {
         playControls->setEnabled(true);
@@ -559,6 +571,12 @@ void MainWindow::mediaStatusChanged(QMediaPlayer::MediaStatus status)
     }
     if (status == QMediaPlayer::InvalidMedia)
     {
+        qDebug() << "stop invalide";
+        currentTCLabel->setText("Erreur");
+        player->stop();
+
+
+
         playControls->setEnabled(false);
         currentTCLabel->setText("Média invalide");
         this->setCursor(QCursor(Qt::ArrowCursor));
@@ -602,8 +620,17 @@ void MainWindow::playRight()
 
 void MainWindow::playerError(QMediaPlayer::Error error)
 {
-    if (error == QMediaPlayer::NoError) return;
-    else if (error == QMediaPlayer::ResourceError) QMessageBox::warning(this,"Erreur","Lecture impossible : média introuvable");
+    if (error == QMediaPlayer::NoError)
+    {
+        return;
+    }
+
+    //if error, playing is stopped in mediaStatusChanged : invalid media
+
+    if (error == QMediaPlayer::ResourceError)
+    {
+        QMessageBox::warning(this,"Erreur","Lecture impossible : média introuvable");
+    }
     else if (error == QMediaPlayer::FormatError)
     {
         //récupérer le format
@@ -615,7 +642,6 @@ void MainWindow::playerError(QMediaPlayer::Error error)
         {
             QMessageBox::warning(this,"Erreur","Problème de lecture : format de média non supporté.\n\nFormat : " + mimeName + "\nDescription : " + mimeComment);
         }
-
     }
     else if (error == QMediaPlayer::NetworkError) QMessageBox::information(this,"Erreur","Problème d'accès réseau, vérifiez votre connexion internet et recommencez la lecture un peu plus tard.");
     else if (error == QMediaPlayer::AccessDeniedError) QMessageBox::warning(this,"Erreur","Lecture impossible : droits d'accès au média insuffisants.");
@@ -632,6 +658,9 @@ void MainWindow::playerError(QMediaPlayer::Error error)
 #endif
 
     }
+
+
+
 }
 
 //DRAG AND DROP
