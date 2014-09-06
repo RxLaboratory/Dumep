@@ -411,7 +411,6 @@ void MainWindow::on_actionA_Propos_triggered()
 
 void MainWindow::mediaChanged(int position)
 {
-    qDebug() << "media changed";
     if (progra) return;
 
     //virer le gras du tableau
@@ -438,7 +437,6 @@ void MainWindow::mediaChanged(int position)
 
 void MainWindow::playerMetaDataChanged()
 {
-    qDebug() << "metadata changed";
     //chopper les metadatas si y en a
     if (!player->isMetaDataAvailable()) return;
     QString tout = "";
@@ -459,7 +457,6 @@ void MainWindow::playerMetaDataChanged()
 
 void MainWindow::mediaDurationChanged(qint64 duration)
 {
-    qDebug() << "duration changed";
     if (duration == 0)
     {
         playControls->setEnabled(false);
@@ -475,7 +472,6 @@ void MainWindow::mediaDurationChanged(qint64 duration)
 
 void MainWindow::mediaPositionChanged(qint64 position)
 {
-    qDebug() << "position changed";
     progra = true;
     seekBar->setValue(position);
     currentTCLabel->setText(this->msToTC(position));
@@ -485,7 +481,6 @@ void MainWindow::mediaPositionChanged(qint64 position)
 void MainWindow::seeked(int position)
 {
     if (progra) return;
-    qDebug() << "seeked";
 
     currentTCLabel->setText(this->msToTC(position));
 
@@ -498,20 +493,17 @@ void MainWindow::mediaStateChanged(QMediaPlayer::State state)
     progra = true;
     if (state == QMediaPlayer::PausedState)
     {
-        qDebug() << "player state paused";
         actionLecture->setChecked(false);
         this->setWindowIcon(QIcon(":/icones/pause"));
     }
     else if (state == QMediaPlayer::StoppedState)
     {
-        qDebug() << "player state stopped";
         actionLecture->setChecked(false);
         playControls->setEnabled(false);
         this->setWindowIcon(QIcon(":/icones/stop"));
     }
     else if (state == QMediaPlayer::PlayingState)
     {
-        qDebug() << "player state playing";
         actionLecture->setChecked(true);
         this->setWindowIcon(QIcon(":/icones/play"));
     }
@@ -520,7 +512,6 @@ void MainWindow::mediaStateChanged(QMediaPlayer::State state)
 
 void MainWindow::mediaStatusChanged(QMediaPlayer::MediaStatus status)
 {
-    qDebug() << "media status changed";
     if (status == QMediaPlayer::UnknownMediaStatus)
     {
         playControls->setEnabled(true);
@@ -571,11 +562,23 @@ void MainWindow::mediaStatusChanged(QMediaPlayer::MediaStatus status)
     }
     if (status == QMediaPlayer::InvalidMedia)
     {
-        qDebug() << "stop invalide";
-        currentTCLabel->setText("Erreur");
-        player->stop();
+        //hack:
+        //check if we're playing: if true, the player goes one index too far, need one previous
+        bool ps = player->state() == QMediaPlayer::PlayingState;
 
+        if (playlist->playbackMode() != QMediaPlaylist::Sequential) player->stop();
 
+       QMimeDatabase mdb;
+       QString mimeName = mdb.mimeTypeForUrl(playlist->currentMedia().canonicalUrl()).name();
+       QString mimeComment = mdb.mimeTypeForUrl(playlist->currentMedia().canonicalUrl()).comment();
+       QMessageBox::warning(this,"Erreur","Problème de lecture : format de média non supporté.\n\nFormat : " + mimeName + "\nDescription : " + mimeComment);
+
+        //QMessageBox::information(this,"Erreur de format","Format de média non supporté.");
+
+        if (ps)
+        {
+            playlist->previous();
+        }
 
         playControls->setEnabled(false);
         currentTCLabel->setText("Média invalide");
@@ -625,23 +628,13 @@ void MainWindow::playerError(QMediaPlayer::Error error)
         return;
     }
 
-    //if error, playing is stopped in mediaStatusChanged : invalid media
-
     if (error == QMediaPlayer::ResourceError)
     {
         QMessageBox::warning(this,"Erreur","Lecture impossible : média introuvable");
     }
     else if (error == QMediaPlayer::FormatError)
     {
-        //récupérer le format
-        QMimeDatabase mdb;
-        QString mimeName = mdb.mimeTypeForUrl(player->currentMedia().canonicalUrl()).name();
-        QString mimeComment = mdb.mimeTypeForUrl(player->currentMedia().canonicalUrl()).comment();
-
-        if (mimeName != "application/octet-stream")
-        {
-            QMessageBox::warning(this,"Erreur","Problème de lecture : format de média non supporté.\n\nFormat : " + mimeName + "\nDescription : " + mimeComment);
-        }
+        //playing is stopped in mediaStatusChanged : invalid media
     }
     else if (error == QMediaPlayer::NetworkError) QMessageBox::information(this,"Erreur","Problème d'accès réseau, vérifiez votre connexion internet et recommencez la lecture un peu plus tard.");
     else if (error == QMediaPlayer::AccessDeniedError) QMessageBox::warning(this,"Erreur","Lecture impossible : droits d'accès au média insuffisants.");
