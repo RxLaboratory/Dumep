@@ -1,9 +1,9 @@
 #ifndef JUMPINGSLIDER_H
 #define JUMPINGSLIDER_H
 
-#include <QSlider>
+#include <QProgressBar>
 
-class JumpingSlider : public QSlider
+class JumpingSlider : public QProgressBar
 {
     Q_OBJECT
 public:
@@ -14,7 +14,7 @@ signals:
 public slots:
 
 protected:
-    void mousePressEvent ( QMouseEvent * event );
+    void mouseMoveEvent ( QMouseEvent * event );
 
 };
 

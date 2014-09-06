@@ -33,6 +33,7 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     playlist = new QMediaPlaylist(this);
     seekBar = new JumpingSlider;
     seekBar->setOrientation(Qt::Horizontal);
+    seekBar->setMaximumHeight(10);
     playControlsLayout->insertWidget(2,seekBar);
     frameRate = 25;
 
