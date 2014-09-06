@@ -22,7 +22,8 @@ SOURCES += main.cpp\
     browser.cpp \
     jumpingslider.cpp \
     params.cpp \
-    about.cpp
+    about.cpp \
+    browserthread.cpp
 
 HEADERS  += mainwindow.h \
     videowidget.h \
@@ -30,7 +31,8 @@ HEADERS  += mainwindow.h \
     browser.h \
     jumpingslider.h \
     params.h \
-    about.h
+    about.h \
+    browserthread.h
 
 FORMS    += mainwindow.ui \
     opener.ui \

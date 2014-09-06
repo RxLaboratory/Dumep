@@ -9,6 +9,7 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QKeyEvent>
+#include "browserthread.h"
 
 class Opener : public QDialog, private Ui::Opener
 {
@@ -23,12 +24,16 @@ private slots:
     void on_folder_clicked();
     void on_stream_clicked();
     void on_favsList_itemDoubleClicked(QListWidgetItem *item);
+    void folderUrls();
+    void progress(int i);
+    void progressMax(int i);
 
 private:
     QList<QUrl> openUrls;
     QFile *favsFile;
     QJsonArray getFavs();
     void setFavs(QJsonArray favsArray);
+    BrowserThread *bf;
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 

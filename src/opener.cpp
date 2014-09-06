@@ -1,5 +1,4 @@
 #include "opener.h"
-#include "browser.h"
 #include <QInputDialog>
 #include <QUrl>
 #include <QMessageBox>
@@ -36,6 +35,53 @@ Opener::Opener(QWidget *parent) :
             favsList->addItem(fs[0].toString());
         }
     }
+
+
+    //un thread pour parcourir les dossiers de facon récurrente
+    bf = new BrowserThread();
+    connect(bf,SIGNAL(nextFile(int)),this,SLOT(progress(int)));
+    connect(bf,SIGNAL(numFiles(int)),this,SLOT(progressMax(int)));
+    connect(bf,SIGNAL(finished()),this,SLOT(folderUrls()));
+
+    progressBar->setStyleSheet("selection-background-color: rgb(255, 68, 68);");
+    progressBar->hide();
+}
+
+void Opener::folderUrls()
+{
+    openUrls = bf->getUrls();
+    if (openUrls.count() > 0)
+    {
+        if (addToFavs->isChecked())
+        {
+            //charger les anciens favs
+            QJsonArray favsArray = getFavs();
+
+            QJsonObject newFavs;
+            newFavs.insert("type","folder");
+            newFavs.insert("url",bf->getFolder());
+            favsArray.append(newFavs);
+
+            setFavs(favsArray);
+        }
+        setCursor(Qt::ArrowCursor);
+        buttonsWidget->setEnabled(true);
+        favsList->setEnabled(true);
+        accept();
+    }
+}
+
+void Opener::progress(int i)
+{
+    progressBar->setValue(i);
+}
+
+void Opener::progressMax(int i)
+{
+    progressBar->setMaximum(i);
+    setCursor(Qt::WaitCursor);
+    buttonsWidget->setEnabled(false);
+    favsList->setEnabled(false);
 }
 
 void Opener::setTitle(QString t)
@@ -78,23 +124,10 @@ void Opener::on_folder_clicked()
     QString dossier = QFileDialog::getExistingDirectory(this,"Ouvrir un dossier");
     if (dossier != "")
     {
-            openUrls = Browser::browseFolder(dossier);
-            if (openUrls.count() > 0)
-            {
-                if (addToFavs->isChecked())
-                {
-                    //charger les anciens favs
-                    QJsonArray favsArray = getFavs();
-
-                    QJsonObject newFavs;
-                    newFavs.insert("type","folder");
-                    newFavs.insert("url",dossier);
-                    favsArray.append(newFavs);
-
-                    setFavs(favsArray);
-                }
-                accept();
-            }
+        progressBar->setValue(0);
+        progressBar->show();
+        bf->setFolder(dossier);
+        bf->start();
     }
 }
 
@@ -179,7 +212,8 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     }
     else if (open.value("type").toString() == "folder")
     {
-        openUrls = Browser::browseFolder(open.value("url").toString());
+        bf->setFolder(open.value("url").toString());
+        bf->start();
     }
     else
     {
@@ -221,7 +255,8 @@ void Opener::keyPressEvent(QKeyEvent *event)
             }
             else if (open.value("type").toString() == "folder")
             {
-                openUrls = Browser::browseFolder(open.value("url").toString());
+                bf->setFolder(open.value("url").toString());
+                bf->start();
             }
             else
             {
