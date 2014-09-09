@@ -13,7 +13,7 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(int argc, char *argv[], QWidget *parent = 0);
+    explicit MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent = 0);
 
 private slots:
     void on_actionOuvrir_triggered();

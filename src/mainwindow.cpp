@@ -21,7 +21,7 @@
 #include <QWinThumbnailToolButton>
 #endif
 
-MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
+MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
     QMainWindow(parent)
 {
     progra = true;

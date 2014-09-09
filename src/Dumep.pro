@@ -40,6 +40,9 @@ FORMS    += mainwindow.ui \
 RESOURCES += \
     ressources.qrc
 
+TRANSLATIONS = dumep_fr.ts \
+               dumep_en.ts
+
 OTHER_FILES += \
     ico.rc
 
