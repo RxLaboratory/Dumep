@@ -17,15 +17,20 @@ public:
     void setMime(bool m);
     void setVolume(int v);
     int getVolume();
+    void setLanguage(QString l);
+    QString getLanguage();
 private slots:
     void on_comboBox_activated(int index);
     void on_buttonBox_accepted();
+
+    void on_languageBox_activated(int index);
 
 private:
     bool buttonStyleAuto;
     QJsonObject getParams();
     void setParams(QJsonObject p);
     int vol;
+    QString languageFile;
 protected:
     void resizeEvent(QResizeEvent*);
 

@@ -2,6 +2,7 @@
 #include <QMediaPlayer>
 #include <QFile>
 #include <QDir>
+#include <QFileDialog>
 
 
 Params::Params(QWidget *parent) :
@@ -16,11 +17,25 @@ Params::Params(QWidget *parent) :
     Qt::ToolButtonStyle style = Qt::ToolButtonStyle(params.value("buttonStyle").toInt());
     bool m = params.value("checkMimeType").toBool();
     vol = params.value("volume").toInt();
+    languageFile = params.value("language").toString();
     if (params.value("volume").isUndefined()) vol = 100;
 
     setStyle(style);
     setMime(m);
+    setLanguage(languageFile);
 
+}
+
+//buttons
+void Params::on_buttonBox_accepted()
+{
+    QJsonObject params;
+    params.insert("buttonStyle",getStyle());
+    params.insert("checkMimeType",getMime());
+    params.insert("language",languageFile);
+    params.insert("volume",vol);
+    setParams(params);
+    accept();
 }
 
 void Params::on_comboBox_activated(int index)
@@ -47,6 +62,8 @@ void Params::on_comboBox_activated(int index)
         toolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
     }
 }
+
+//setting and getting params
 
 Qt::ToolButtonStyle Params::getStyle()
 {
@@ -111,6 +128,20 @@ int Params::getVolume()
     return vol;
 }
 
+void Params::setLanguage(QString l)
+{
+    if (l == "languages/dumep_en") languageBox->setCurrentIndex(1);
+    else if (l == "languages/dumep_fr") languageBox->setCurrentIndex(0);
+    else languageBox->setCurrentIndex(2);
+}
+
+QString Params::getLanguage()
+{
+    return languageFile;
+}
+
+//loading and saving params
+
 QJsonObject Params::getParams()
 {
     //charger
@@ -132,7 +163,7 @@ QJsonObject Params::getParams()
         params.insert("buttonStyle",Qt::ToolButtonFollowStyle);
         params.insert("checkMimeType",false);
         params.insert("volume",100);
-        params.insert("locale","languages/dumep_" + QLocale::system().name());
+        params.insert("language","languages/dumep_" + QLocale::system().name());
         paramsDoc.setObject(params);
         if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))
         {
@@ -158,6 +189,8 @@ void Params::setParams(QJsonObject p)
     }
 }
 
+//events
+
 void Params::resizeEvent(QResizeEvent*)
 {
     if (buttonStyleAuto)
@@ -168,14 +201,16 @@ void Params::resizeEvent(QResizeEvent*)
     }
 }
 
-void Params::on_buttonBox_accepted()
+void Params::on_languageBox_activated(int index)
 {
-    QJsonObject params;
-    params.insert("buttonStyle",getStyle());
-    params.insert("checkMimeType",getMime());
-    params.insert("volume",vol);
-    setParams(params);
-    accept();
+    if (index == 0) languageFile = "languages/dumep_fr";
+    else if (index == 1) languageFile = "languages/dumep_en";
+    else
+    {
+        QString l = QFileDialog::getOpenFileName(this,tr("Choisir un fichier de traduction"),QString(),tr("Fichier de langue (*.qm)"));
+        if (l!="")
+        {
+            languageFile = l;
+        }
+    }
 }
-
-
