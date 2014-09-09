@@ -28,6 +28,7 @@ void BrowserThread::run()
     int i = 0;
     foreach(QFileInfo f,dedans)
     {
+
         emit nextFile(i);
         i++;
         if (f.isDir())
@@ -42,6 +43,7 @@ void BrowserThread::run()
             }
         }
     }
+
     emit finished();
 }
 
@@ -61,7 +63,6 @@ QList<QUrl> BrowserThread::browseFolder(QString d)
 
     foreach(QFileInfo f,dedans)
     {
-
         if (f.isDir())
         {
             trouve.append(browseFolder(f.absoluteFilePath()));
@@ -97,3 +98,4 @@ bool BrowserThread::checkFormat(QString filePath)
     }
     return ok;
 }
+

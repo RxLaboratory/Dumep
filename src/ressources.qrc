@@ -20,5 +20,6 @@
         <file alias="file">icones/file.png</file>
         <file alias="stream">icones/stream.png</file>
         <file alias="logo">icones/logo.png</file>
+        <file alias="cancel">icones/cancel.png</file>
     </qresource>
 </RCC>

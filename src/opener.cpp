@@ -39,7 +39,7 @@ Opener::Opener(QWidget *parent) :
     connect(bf,SIGNAL(numFiles(int)),this,SLOT(progressMax(int)));
     connect(bf,SIGNAL(finished()),this,SLOT(folderUrls()));
     progressBar->setStyleSheet("selection-background-color: rgb(255, 68, 68);");
-    progressBar->hide();
+    progressWidget->hide();
 
 
 }
@@ -158,7 +158,7 @@ void Opener::on_stream_clicked()
 void Opener::loadFolder(QString dossier)
 {
     progressBar->setValue(0);
-    progressBar->show();
+    progressWidget->show();
     buttonsWidget->setEnabled(false);
     favsList->setEnabled(false);
     setCursor(Qt::WaitCursor);
@@ -273,4 +273,14 @@ void Opener::keyPressEvent(QKeyEvent *event)
     {
         QDialog::keyPressEvent(event);
     }
+}
+
+void Opener::on_cancelButton_clicked()
+{
+    bf->terminate();
+    progressWidget->hide();
+    progressBar->setValue(0);
+    buttonsWidget->setEnabled(true);
+    favsList->setEnabled(true);
+    setCursor(Qt::ArrowCursor);
 }

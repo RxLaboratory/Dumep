@@ -28,6 +28,8 @@ private slots:
     void progress(int i);
     void progressMax(int i);
 
+    void on_cancelButton_clicked();
+
 private:
     QList<QUrl> openUrls;
     QFile *favsFile;
