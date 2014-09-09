@@ -1,5 +1,5 @@
 #include "browserthread.h"
-
+#include <QtDebug>
 
 BrowserThread::BrowserThread(QObject *parent) :
     QThread(parent)
@@ -19,11 +19,9 @@ QString BrowserThread::getFolder()
 void BrowserThread::run()
 {
     QDir dir(folder);
-    //d.setFilter(QDir::NoDotAndDotDot);
     QFileInfoList dedans = dir.entryInfoList(QStringList("*"),QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::NoSymLinks);
     emit numFiles(dedans.count());
     int i = 0;
-
     foreach(QFileInfo f,dedans)
     {
         emit nextFile(i);

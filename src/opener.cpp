@@ -3,8 +3,6 @@
 #include <QUrl>
 #include <QMessageBox>
 
-
-
 Opener::Opener(QWidget *parent) :
     QDialog(parent)
 {
@@ -79,9 +77,8 @@ void Opener::progress(int i)
 void Opener::progressMax(int i)
 {
     progressBar->setMaximum(i);
-    setCursor(Qt::WaitCursor);
-    buttonsWidget->setEnabled(false);
-    favsList->setEnabled(false);
+
+
 }
 
 void Opener::setTitle(QString t)
@@ -126,6 +123,9 @@ void Opener::on_folder_clicked()
     {
         progressBar->setValue(0);
         progressBar->show();
+        buttonsWidget->setEnabled(false);
+        favsList->setEnabled(false);
+        setCursor(Qt::WaitCursor);
         bf->setFolder(dossier);
         bf->start();
     }
@@ -212,6 +212,11 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     }
     else if (open.value("type").toString() == "folder")
     {
+        progressBar->setValue(0);
+        progressBar->show();
+        buttonsWidget->setEnabled(false);
+        favsList->setEnabled(false);
+        setCursor(Qt::WaitCursor);
         bf->setFolder(open.value("url").toString());
         bf->start();
     }
@@ -219,8 +224,6 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     {
         openUrls << QUrl(open.value("url").toString());
     }
-
-    accept();
 }
 
 void Opener::keyPressEvent(QKeyEvent *event)
@@ -255,6 +258,11 @@ void Opener::keyPressEvent(QKeyEvent *event)
             }
             else if (open.value("type").toString() == "folder")
             {
+                progressBar->setValue(0);
+                progressBar->show();
+                buttonsWidget->setEnabled(false);
+                favsList->setEnabled(false);
+                setCursor(Qt::WaitCursor);
                 bf->setFolder(open.value("url").toString());
                 bf->start();
             }
@@ -264,7 +272,6 @@ void Opener::keyPressEvent(QKeyEvent *event)
             }
         }
         event->accept();
-        accept();
     }
     else
     {
