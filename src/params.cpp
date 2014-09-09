@@ -132,6 +132,7 @@ QJsonObject Params::getParams()
         params.insert("buttonStyle",Qt::ToolButtonFollowStyle);
         params.insert("checkMimeType",false);
         params.insert("volume",100);
+        params.insert("locale","languages/dumep_" + QLocale::system().name());
         paramsDoc.setObject(params);
         if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))
         {
