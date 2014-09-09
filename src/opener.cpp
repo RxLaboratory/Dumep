@@ -348,6 +348,7 @@ void Opener::on_recentList_itemDoubleClicked(QListWidgetItem *item)
     }
     else if (open.value("type").toString() == "folder")
     {
+        openingRecent = true;
         loadFolder(open.value("url").toString());
     }
     else
