@@ -16,10 +16,6 @@
 #include <QMimeType>
 #include "browserthread.h"
 
-#ifdef Q_OS_WIN
-#include <QWinThumbnailToolBar>
-#include <QWinThumbnailToolButton>
-#endif
 
 MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
     QMainWindow(parent)
@@ -88,6 +84,13 @@ MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
 
     //Ajouter les contrôles dans la TaskBar si win
 #ifdef Q_OS_WIN
+
+    //Jumplist
+    QWinJumpList jumplist;
+    jumplist.recent()->setVisible(true);
+    jumplist.frequent()->setVisible(true);
+
+    //buttons
    QWinThumbnailToolBar *thumbbar = new QWinThumbnailToolBar(this);
    thumbbar->setWindow(this->windowHandle());
 
@@ -123,6 +126,13 @@ MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
    thumbbar->addButton(previous);
    thumbbar->addButton(play);
    thumbbar->addButton(next);
+
+   //progress
+   taskbarButton = new QWinTaskbarButton(this);
+   taskbarButton->setWindow(windowHandle());
+
+   taskbarProgress = taskbarButton->progress();
+   connect(seekBar, SIGNAL(valueChanged(int)), taskbarProgress, SLOT(setValue(int)));
 
 #endif //Q_OS_WIN
 
@@ -441,6 +451,7 @@ void MainWindow::mediaDurationChanged(qint64 duration)
         playControls->setEnabled(true);
     }
     seekBar->setMaximum(duration);
+    taskbarProgress->setMaximum(duration);
 }
 
 void MainWindow::mediaPositionChanged(qint64 position)

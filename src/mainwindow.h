@@ -8,6 +8,15 @@
 #include "videowidget.h"
 #include "jumpingslider.h"
 
+#ifdef Q_OS_WIN
+#include <QWinThumbnailToolBar>
+#include <QWinThumbnailToolButton>
+#include <QWinTaskbarButton>
+#include <QWinTaskbarProgress>
+#include <QWinJumpList>
+#include <QWinJumpListCategory>
+#endif
+
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
     Q_OBJECT
@@ -60,6 +69,10 @@ private:
     qreal frameRate;
     QJsonObject getParams();
     bool buttonStyleAuto;
+#ifdef Q_OS_WIN
+    QWinTaskbarButton *taskbarButton;
+    QWinTaskbarProgress *taskbarProgress;
+#endif
 
 protected:
     void dropEvent(QDropEvent *event);
