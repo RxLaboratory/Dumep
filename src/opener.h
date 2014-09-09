@@ -28,7 +28,6 @@ private slots:
     void progress(int i);
     void progressMax(int i);
     void on_cancelButton_clicked();
-
     void on_recentList_itemDoubleClicked(QListWidgetItem *item);
 
 private:
@@ -40,6 +39,7 @@ private:
     void setRecent(QJsonArray recentArray);
     BrowserThread *bf;
     void loadFolder(QString dossier);
+    bool openingRecent;
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 

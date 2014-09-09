@@ -66,6 +66,7 @@ Opener::Opener(QWidget *parent) :
     progressBar->setStyleSheet("selection-background-color: rgb(255, 68, 68);");
     progressWidget->hide();
 
+    openingRecent = false;
 
 }
 
@@ -86,20 +87,24 @@ void Opener::folderUrls()
 
             setFavs(favsArray);
         }
-        //recentlist
-        //load recents
-        QJsonArray recentArray = getRecents();
 
-        QJsonObject newRecent;
-        newRecent.insert("type","folder");
-        newRecent.insert("url",bf->getFolder());
-        recentArray.prepend(newRecent);
-        if (recentArray.count() > 10)
-        {
-            recentArray.removeLast();
+        if (!openingRecent)
+            {
+            //recentlist
+            //load recents
+            QJsonArray recentArray = getRecents();
+
+            QJsonObject newRecent;
+            newRecent.insert("type","folder");
+            newRecent.insert("url",bf->getFolder());
+            recentArray.prepend(newRecent);
+            if (recentArray.count() > 10)
+            {
+                recentArray.removeLast();
+            }
+
+            setRecent(recentArray);
         }
-
-        setRecent(recentArray);
         setCursor(Qt::ArrowCursor);
         buttonsWidget->setEnabled(true);
         favsList->setEnabled(true);
@@ -351,7 +356,6 @@ void Opener::on_recentList_itemDoubleClicked(QListWidgetItem *item)
         accept();
     }
 }
-
 
 void Opener::keyPressEvent(QKeyEvent *event)
 {
