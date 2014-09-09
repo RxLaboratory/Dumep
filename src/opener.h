@@ -34,6 +34,7 @@ private:
     QJsonArray getFavs();
     void setFavs(QJsonArray favsArray);
     BrowserThread *bf;
+    void loadFolder(QString dossier);
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
 

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>404</width>
-    <height>142</height>
+    <width>392</width>
+    <height>235</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,87 +17,132 @@
    <iconset resource="ressources.qrc">
     <normaloff>:/icones/params</normaloff>:/icones/params</iconset>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QFormLayout" name="formLayout">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-         </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="label">
-           <property name="text">
-            <string>Style des boutons :</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox">
-           <item>
+    <widget class="QGroupBox" name="groupBox">
+     <property name="title">
+      <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout">
+        <item>
+         <layout class="QFormLayout" name="formLayout">
+          <property name="fieldGrowthPolicy">
+           <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          </property>
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
             <property name="text">
-             <string>Automatique</string>
+             <string>Style des boutons :</string>
             </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Icônes uniquement</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Texte uniquement</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Texte à côté des icônes</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Texte sous les icônes</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="text">
-          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;En mode automatique&lt;/span&gt;,&lt;br/&gt;Dumep adapte le style des boutons à la&lt;span style=&quot; font-weight:600;&quot;&gt; taille de la fenêtre&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <widget class="QToolButton" name="toolButton">
-       <property name="text">
-        <string>Exemple</string>
-       </property>
-       <property name="icon">
-        <iconset resource="ressources.qrc">
-         <normaloff>:/icones/dumep</normaloff>:/icones/dumep</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>32</width>
-         <height>32</height>
-        </size>
-       </property>
-       <property name="toolButtonStyle">
-        <enum>Qt::ToolButtonTextUnderIcon</enum>
-       </property>
-       <property name="autoRaise">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QComboBox" name="comboBox">
+            <item>
+             <property name="text">
+              <string>Automatique</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Icônes uniquement</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Texte uniquement</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Texte à côté des icônes</string>
+             </property>
+            </item>
+            <item>
+             <property name="text">
+              <string>Texte sous les icônes</string>
+             </property>
+            </item>
+           </widget>
+          </item>
+         </layout>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;En mode automatique&lt;/span&gt;,&lt;br/&gt;Dumep adapte le style des boutons à la&lt;span style=&quot; font-weight:600;&quot;&gt; taille de la fenêtre&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QToolButton" name="toolButton">
+        <property name="text">
+         <string>Exemple</string>
+        </property>
+        <property name="icon">
+         <iconset resource="ressources.qrc">
+          <normaloff>:/icones/dumep</normaloff>:/icones/dumep</iconset>
+        </property>
+        <property name="iconSize">
+         <size>
+          <width>32</width>
+          <height>32</height>
+         </size>
+        </property>
+        <property name="toolButtonStyle">
+         <enum>Qt::ToolButtonTextUnderIcon</enum>
+        </property>
+        <property name="autoRaise">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_2">
+      <item>
+       <widget class="QCheckBox" name="mimeButton">
+        <property name="text">
+         <string>Au chargement des dossiers,
+utiliser le type MIME pour vérifier les formats de fichiers.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_3">
+        <property name="text">
+         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rend la détection plus fiable&lt;/span&gt;, mais&lt;span style=&quot; font-weight:600;&quot;&gt; peut ralentir le chargement&lt;br/&gt;&lt;/span&gt;des dossiers contenant beaucoup de fichiers ou ceux sur un réseau.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_3">
+     <property name="title">
+      <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">

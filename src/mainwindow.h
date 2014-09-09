@@ -44,6 +44,7 @@ private slots:
     void on_actionPr_f_rences_triggered();
     void on_actionA_Propos_triggered();
     void playerError(QMediaPlayer::Error error);
+    void setVolume(int v);
 
 private:
     QString msToTC(qint64 ms); //converts milliseconds to String Timecode '00:00.00'

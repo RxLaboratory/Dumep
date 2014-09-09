@@ -9,12 +9,12 @@
 #include <QTimer>
 #include <QMovie>
 #include "opener.h"
-#include "browser.h"
 #include "params.h"
 #include "about.h"
 #include <QMessageBox>
 #include <QMimeDatabase>
 #include <QMimeType>
+#include "browserthread.h"
 
 #ifdef Q_OS_WIN
 #include <QWinThumbnailToolBar>
@@ -51,8 +51,7 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     connect(playlist,SIGNAL(currentIndexChanged(int)),this,SLOT(mediaChanged(int)));
     connect(player,SIGNAL(positionChanged(qint64)),this,SLOT(mediaPositionChanged(qint64)));
     connect(player,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(mediaStateChanged(QMediaPlayer::State)));
-    connect(volumeSlider,SIGNAL(valueChanged(int)),player,SLOT(setVolume(int)));
-    connect(volumeSlider,SIGNAL(valueChanged(int)),volumeSpinBox,SLOT(setValue(int)));
+    connect(volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(setVolume(int)));
     connect(player,SIGNAL(mediaStatusChanged(QMediaPlayer::MediaStatus)),this,SLOT(mediaStatusChanged(QMediaPlayer::MediaStatus)));
     connect(player,SIGNAL(bufferStatusChanged(int)),this,SLOT(bufferStatusChanged(int)));
     connect(player,SIGNAL(videoAvailableChanged(bool)),this,SLOT(playerVideoAvailable(bool)));
@@ -76,8 +75,8 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     buttonStyleAuto = true;
 
     //charge les préférences
-    QJsonObject params = getParams();
-    Qt::ToolButtonStyle style = Qt::ToolButtonStyle(params.value("buttonStyle").toInt());
+    Params p(this);
+    Qt::ToolButtonStyle style = p.getStyle();
     if (style == Qt::ToolButtonFollowStyle) buttonStyleAuto = true;
     else
     {
@@ -85,7 +84,7 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
         mainToolBar->setToolButtonStyle(style);
     }
 
-    volumeSlider->setValue(100);
+    volumeSlider->setValue(p.getVolume());
 
     //Ajouter les contrôles dans la TaskBar si win
 #ifdef Q_OS_WIN
@@ -189,34 +188,12 @@ void MainWindow::addFile(QUrl fichier)
     }
 }
 
-QJsonObject MainWindow::getParams()
+void MainWindow::setVolume(int v)
 {
-    //charger
-    QJsonDocument paramsDoc;
-    QFile paramsFile(QDir::homePath() + "/Dumep/params.dumep");
-    if (paramsFile.exists())
-    {
-        if (paramsFile.open(QIODevice::ReadOnly | QIODevice::Text))
-        {
-            QTextStream in(&paramsFile);
-            paramsDoc = QJsonDocument::fromJson(in.readAll().toUtf8());
-            paramsFile.close();
-        }
-    }
-    else
-    {
-        //enregistrer
-        QJsonObject params;
-        params.insert("buttonStyle",Qt::ToolButtonFollowStyle);
-        paramsDoc.setObject(params);
-        if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream out(&paramsFile);
-            out << paramsDoc.toJson();
-            paramsFile.close();
-        }
-    }
-    return paramsDoc.object();
+    player->setVolume(v);
+    volumeSpinBox->setValue(v);
+    Params p(this);
+    p.setVolume(v);
 }
 
 //BUTTONS
@@ -374,28 +351,12 @@ void MainWindow::on_actionImage_pr_c_dente_triggered()
 
 void MainWindow::on_actionPr_f_rences_triggered()
 {
-     Params p(this);
-
-    QJsonObject params = getParams();
-
-    Qt::ToolButtonStyle style = Qt::ToolButtonStyle(params.value("buttonStyle").toInt());
-
-    p.setStyle(style);
+    Params p(this);
 
     if (p.exec())
     {
-        style = p.getStyle();
-        params.insert("buttonStyle",style);
-        QJsonDocument paramsDoc;
-        paramsDoc.setObject(params);
-        QFile paramsFile(QDir::homePath() + "/Dumep/params.dumep");
-        //enregistrer
-        if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))
-        {
-            QTextStream out(&paramsFile);
-            out << paramsDoc.toJson();
-            paramsFile.close();
-        }
+        Qt::ToolButtonStyle style = p.getStyle();
+
         if (style == Qt::ToolButtonFollowStyle)
         {
             buttonStyleAuto = true;
@@ -680,8 +641,8 @@ void MainWindow::dropEvent(QDropEvent *event)
         {
             if (QDir(f.toLocalFile()).exists())
             {
-                addFiles(Browser::browseFolder(f.toLocalFile()));
-
+                BrowserThread bt;
+                addFiles(bt.browseFolder(f.toLocalFile()));
             }
             else
             {
@@ -700,7 +661,8 @@ void MainWindow::dropEvent(QDropEvent *event)
         }
         else if (QDir(mimeData->text()).exists())
         {
-            addFiles(Browser::browseFolder(mimeData->text()));
+            BrowserThread bt;
+            addFiles(bt.browseFolder(mimeData->text()));
         }
     }
 

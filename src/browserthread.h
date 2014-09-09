@@ -14,6 +14,7 @@ public:
     void setFolder(QString d);
     QString getFolder();
     QList<QUrl> getUrls();
+    QList<QUrl> browseFolder(QString d);
 
 signals:
     void numFiles(int);
@@ -23,9 +24,10 @@ signals:
 public slots:
 
 private:
-    QString folder;
-    QList<QUrl> browseFolder(QString d);
+    QString folder;    
     QList<QUrl> urls;
+    bool checkFormat(QString filePath);
+    bool checkMime;
 
 };
 

@@ -19,7 +19,6 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     videowidget.cpp \
     opener.cpp \
-    browser.cpp \
     jumpingslider.cpp \
     params.cpp \
     about.cpp \
@@ -28,7 +27,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h \
     videowidget.h \
     opener.h \
-    browser.h \
     jumpingslider.h \
     params.h \
     about.h \

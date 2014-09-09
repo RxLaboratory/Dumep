@@ -121,13 +121,7 @@ void Opener::on_folder_clicked()
     QString dossier = QFileDialog::getExistingDirectory(this,"Ouvrir un dossier");
     if (dossier != "")
     {
-        progressBar->setValue(0);
-        progressBar->show();
-        buttonsWidget->setEnabled(false);
-        favsList->setEnabled(false);
-        setCursor(Qt::WaitCursor);
-        bf->setFolder(dossier);
-        bf->start();
+        loadFolder(dossier);
     }
 }
 
@@ -160,6 +154,17 @@ void Opener::on_stream_clicked()
             QMessageBox::warning(this,"URL invalide","Cette adresse  n'est pas valide.");
         }
     }
+}
+
+void Opener::loadFolder(QString dossier)
+{
+    progressBar->setValue(0);
+    progressBar->show();
+    buttonsWidget->setEnabled(false);
+    favsList->setEnabled(false);
+    setCursor(Qt::WaitCursor);
+    bf->setFolder(dossier);
+    bf->start();
 }
 
 QJsonArray Opener::getFavs()
@@ -212,13 +217,7 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     }
     else if (open.value("type").toString() == "folder")
     {
-        progressBar->setValue(0);
-        progressBar->show();
-        buttonsWidget->setEnabled(false);
-        favsList->setEnabled(false);
-        setCursor(Qt::WaitCursor);
-        bf->setFolder(open.value("url").toString());
-        bf->start();
+        loadFolder(open.value("url").toString());
     }
     else
     {
@@ -258,13 +257,7 @@ void Opener::keyPressEvent(QKeyEvent *event)
             }
             else if (open.value("type").toString() == "folder")
             {
-                progressBar->setValue(0);
-                progressBar->show();
-                buttonsWidget->setEnabled(false);
-                favsList->setEnabled(false);
-                setCursor(Qt::WaitCursor);
-                bf->setFolder(open.value("url").toString());
-                bf->start();
+                loadFolder(open.value("url").toString());
             }
             else
             {
