@@ -273,6 +273,11 @@ p, li { white-space: pre-wrap; }
         <source>A Propos</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="mainwindow.cpp" line="206"/>
+        <source>Ouvrir</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Opener</name>
@@ -301,6 +306,11 @@ p, li { white-space: pre-wrap; }
         <source>Streaming...</source>
         <translation></translation>
     </message>
+    <message>
+        <location filename="opener.ui" line="199"/>
+        <source>Annuler</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Params</name>
@@ -326,8 +336,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="params.ui" line="53"/>
-        <source>Other...</source>
-        <translation></translation>
+        <source>Autre...</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="params.ui" line="82"/>
@@ -379,6 +389,16 @@ utiliser le type MIME pour vérifier les formats de fichiers.</source>
         <location filename="params.ui" line="172"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Rend la détection plus fiable&lt;/span&gt;, mais&lt;span style=&quot; font-weight:600;&quot;&gt; peut ralentir le chargement&lt;br/&gt;&lt;/span&gt;des dossiers contenant beaucoup de fichiers ou ceux sur un réseau.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="params.cpp" line="210"/>
+        <source>Choisir un fichier de traduction</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="params.cpp" line="210"/>
+        <source>Fichier de langue (*.qm)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
