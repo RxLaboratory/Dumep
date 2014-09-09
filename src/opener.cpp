@@ -214,6 +214,7 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
         {
             openUrls << QUrl(urls[i].toString());
         }
+        accept();
     }
     else if (open.value("type").toString() == "folder")
     {
@@ -222,6 +223,7 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     else
     {
         openUrls << QUrl(open.value("url").toString());
+        accept();
     }
 }
 
@@ -254,6 +256,7 @@ void Opener::keyPressEvent(QKeyEvent *event)
                 {
                     openUrls << QUrl(urls[i].toString());
                 }
+                accept();
             }
             else if (open.value("type").toString() == "folder")
             {
@@ -262,6 +265,7 @@ void Opener::keyPressEvent(QKeyEvent *event)
             else
             {
                 openUrls << QUrl(open.value("url").toString());
+                accept();
             }
         }
         event->accept();
