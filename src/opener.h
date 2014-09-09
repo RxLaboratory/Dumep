@@ -27,14 +27,17 @@ private slots:
     void folderUrls();
     void progress(int i);
     void progressMax(int i);
-
     void on_cancelButton_clicked();
+
+    void on_recentList_itemDoubleClicked(QListWidgetItem *item);
 
 private:
     QList<QUrl> openUrls;
     QFile *favsFile;
     QJsonArray getFavs();
     void setFavs(QJsonArray favsArray);
+    QJsonArray getRecents();
+    void setRecent(QJsonArray recentArray);
     BrowserThread *bf;
     void loadFolder(QString dossier);
 protected:

@@ -477,7 +477,17 @@ p, li { white-space: pre-wrap; }
         <translation>Streaming...</translation>
     </message>
     <message>
-        <location filename="opener.ui" line="199"/>
+        <location filename="opener.ui" line="168"/>
+        <source>Récemment lu :</source>
+        <translation>Recently opened:</translation>
+    </message>
+    <message>
+        <location filename="opener.ui" line="195"/>
+        <source>Favoris :</source>
+        <translation>Favorites:</translation>
+    </message>
+    <message>
+        <location filename="opener.ui" line="244"/>
         <source>Annuler</source>
         <translation>Cancel</translation>
     </message>
