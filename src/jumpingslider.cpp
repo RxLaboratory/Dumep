@@ -7,7 +7,6 @@ JumpingSlider::JumpingSlider(QWidget *parent) :
     QProgressBar(parent)
 {
     setTextVisible(false);
-    setStyleSheet("selection-background-color: rgb(255, 68, 68);");
     setStyle(QStyleFactory::create("Fusion"));
 }
 

@@ -34,7 +34,15 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
     seekBar = new JumpingSlider;
     seekBar->setOrientation(Qt::Horizontal);
     seekBar->setMaximumHeight(10);
+    seekBar->setStyleSheet("selection-background-color: rgb(255, 68, 68);");
+    volumeSlider = new JumpingSlider;
+    volumeSlider->setOrientation(Qt::Horizontal);
+    volumeSlider->setMaximumHeight(10);
+    volumeSlider->setMaximumWidth(75);
+    volumeSlider->setAlignment(Qt::AlignRight);
+    volumeSlider->setStyleSheet("selection-background-color: rgb(137, 31, 31);");
     playControlsLayout->insertWidget(2,seekBar);
+    volumeLayout->insertWidget(0,volumeSlider);
     frameRate = 25;
 
     //configuring media player
@@ -76,6 +84,8 @@ MainWindow::MainWindow(int argc, char *argv[], QWidget *parent) :
         buttonStyleAuto = false;
         mainToolBar->setToolButtonStyle(style);
     }
+
+    volumeSlider->setValue(100);
 
     //Ajouter les contrôles dans la TaskBar si win
 #ifdef Q_OS_WIN

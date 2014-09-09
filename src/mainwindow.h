@@ -55,6 +55,7 @@ private:
     bool progra; //used to test if a button has been triggered programmatically
     QSize windowSize; //store the size of the main window when in full mode
     JumpingSlider *seekBar; //seekbar inherits QSlider but handles mouse event differently
+    JumpingSlider *volumeSlider;
     qreal frameRate;
     QJsonObject getParams();
     bool buttonStyleAuto;
