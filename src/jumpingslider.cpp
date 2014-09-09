@@ -10,7 +10,6 @@ JumpingSlider::JumpingSlider(QWidget *parent) :
     setStyle(QStyleFactory::create("Fusion"));
 }
 
-
 void JumpingSlider::mouseMoveEvent ( QMouseEvent * event )
 {
 

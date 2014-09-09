@@ -2,6 +2,7 @@
 #include <QInputDialog>
 #include <QUrl>
 #include <QMessageBox>
+#include <QtDebug>
 
 Opener::Opener(QWidget *parent) :
     QDialog(parent)
@@ -10,7 +11,6 @@ Opener::Opener(QWidget *parent) :
 
     //charger les favs
     QJsonArray favsArray = getFavs();
-
     for(int i = 0;i<favsArray.count();i++)
     {
         QJsonValue fav = favsArray[i];
@@ -33,16 +33,15 @@ Opener::Opener(QWidget *parent) :
             favsList->addItem(fs[0].toString());
         }
     }
-
-
     //un thread pour parcourir les dossiers de facon récurrente
     bf = new BrowserThread();
     connect(bf,SIGNAL(nextFile(int)),this,SLOT(progress(int)));
     connect(bf,SIGNAL(numFiles(int)),this,SLOT(progressMax(int)));
     connect(bf,SIGNAL(finished()),this,SLOT(folderUrls()));
-
     progressBar->setStyleSheet("selection-background-color: rgb(255, 68, 68);");
     progressBar->hide();
+
+
 }
 
 void Opener::folderUrls()

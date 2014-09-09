@@ -194,6 +194,7 @@ void MainWindow::setVolume(int v)
     volumeSpinBox->setValue(v);
     Params p(this);
     p.setVolume(v);
+    repaint();
 }
 
 //BUTTONS
@@ -202,7 +203,7 @@ void MainWindow::on_actionOuvrir_triggered()
 {
 
         Opener o(this);
-        o.setTitle("Ouvrir");
+        o.setTitle(tr("Ouvrir"));
         if (o.exec())
         {
             //vider la playlist et le tableau
@@ -447,6 +448,7 @@ void MainWindow::mediaPositionChanged(qint64 position)
     progra = true;
     seekBar->setValue(position);
     currentTCLabel->setText(this->msToTC(position));
+   repaint();
     progra = false;
 }
 
@@ -455,8 +457,8 @@ void MainWindow::seeked(int position)
     if (progra) return;
 
     currentTCLabel->setText(this->msToTC(position));
-
     player->setPosition(seekBar->value());
+    repaint();
 }
 
 void MainWindow::mediaStateChanged(QMediaPlayer::State state)
