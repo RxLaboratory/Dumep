@@ -242,7 +242,7 @@
           <number>0</number>
          </property>
          <item>
-          <widget class="QToolButton" name="addToFavs_2">
+          <widget class="QToolButton" name="upButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -254,7 +254,7 @@
            </property>
            <property name="icon">
             <iconset resource="ressources.qrc">
-             <normaloff>:/icones/favs</normaloff>:/icones/favs</iconset>
+             <normaloff>:/icones/up</normaloff>:/icones/up</iconset>
            </property>
            <property name="iconSize">
             <size>
@@ -271,7 +271,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QToolButton" name="addToFavs_3">
+          <widget class="QToolButton" name="downButton">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -283,7 +283,7 @@
            </property>
            <property name="icon">
             <iconset resource="ressources.qrc">
-             <normaloff>:/icones/favs</normaloff>:/icones/favs</iconset>
+             <normaloff>:/icones/down</normaloff>:/icones/down</iconset>
            </property>
            <property name="iconSize">
             <size>

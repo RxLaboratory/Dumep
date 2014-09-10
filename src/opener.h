@@ -30,6 +30,8 @@ private slots:
     void on_cancelButton_clicked();
     void on_recentList_itemDoubleClicked(QListWidgetItem *item);
     void on_addToFavs_clicked();
+    void on_upButton_clicked();
+    void on_downButton_clicked();
 
 private:
     QList<QUrl> openUrls;

@@ -446,3 +446,55 @@ void Opener::on_addToFavs_clicked()
 
     refreshFavs();
 }
+
+void Opener::on_upButton_clicked()
+{
+    //charger les anciens favs
+    QJsonArray favsArray = getFavs();
+    QList<int> selection;
+    //pour chaque élément de la sélection
+    foreach(QListWidgetItem *item,favsList->selectedItems())
+    {
+        int index = favsList->row(item);
+        if (index > 0 && index <= favsList->count()-1)
+        {
+            favsArray.insert(index-1,favsArray.takeAt(index));
+            index--;
+        }
+        selection << index;
+    }
+    setFavs(favsArray);
+    refreshFavs();
+    //restore selection
+    foreach(int index,selection)
+    {
+        favsList->item(index)->setSelected(true);
+    }
+}
+
+void Opener::on_downButton_clicked()
+{
+    //charger les anciens favs
+    QJsonArray favsArray = getFavs();
+    QList<int> selection;
+    //pour chaque élément de la sélection
+    for (int i = favsList->selectedItems().count()-1;i>=0;i--)
+    {
+        QListWidgetItem *item = favsList->selectedItems()[i];
+        int index = favsList->row(item);
+        if (index >= 0 && index < favsList->count()-1)
+        {
+            favsArray.insert(index+1,favsArray.takeAt(index));
+            index++;
+        }
+        selection << index;
+    }
+    setFavs(favsArray);
+    refreshFavs();
+    //restore selection
+    for (int i = selection.count()-1;i>=0;i--)
+    {
+        int index = selection[i];
+        favsList->item(index)->setSelected(true);
+    }
+}
