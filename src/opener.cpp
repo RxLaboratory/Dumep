@@ -9,30 +9,8 @@ Opener::Opener(QWidget *parent) :
 {
     setupUi(this);
 
-    //charger les favs
-    QJsonArray favsArray = getFavs();
-    for(int i = 0;i<favsArray.count();i++)
-    {
-        QJsonValue fav = favsArray[i];
-        if (fav.toObject().value("type").toString() == "files")
-        {
-            QJsonArray url = fav.toObject().value("url").toArray();
-            favsList->addItem(url[0].toString());
-        }
-        else if (fav.toObject().value("type").toString() == "folder")
-        {
-            favsList->addItem(fav.toObject().value("url").toString());
-        }
-        else if (fav.toObject().value("type").toString() == "stream")
-        {
-            favsList->addItem(fav.toObject().value("url").toString());
-        }
-        else if (fav.toObject().value("type").toString() == "imageSequence")
-        {
-            QJsonArray fs = fav.toObject().value("url").toArray();
-            favsList->addItem(fs[0].toString());
-        }
-    }
+    //charger les favoris
+    refreshFavs();
     //charger les recents
     QJsonArray recentArray = getRecents();
     for(int i = 0;i<recentArray.count();i++)
@@ -70,24 +48,41 @@ Opener::Opener(QWidget *parent) :
 
 }
 
+void Opener::refreshFavs()
+{
+    //vider le tableau
+    favsList->clear();
+    //charger les favs
+    QJsonArray favsArray = getFavs();
+    for(int i = 0;i<favsArray.count();i++)
+    {
+        QJsonValue fav = favsArray[i];
+        if (fav.toObject().value("type").toString() == "files")
+        {
+            QJsonArray url = fav.toObject().value("url").toArray();
+            favsList->addItem(url[0].toString());
+        }
+        else if (fav.toObject().value("type").toString() == "folder")
+        {
+            favsList->addItem(fav.toObject().value("url").toString());
+        }
+        else if (fav.toObject().value("type").toString() == "stream")
+        {
+            favsList->addItem(fav.toObject().value("url").toString());
+        }
+        else if (fav.toObject().value("type").toString() == "imageSequence")
+        {
+            QJsonArray fs = fav.toObject().value("url").toArray();
+            favsList->addItem(fs[0].toString());
+        }
+    }
+}
+
 void Opener::folderUrls()
 {
     openUrls = bf->getUrls();
     if (openUrls.count() > 0)
     {
-        if (addToFavs->isChecked())
-        {
-            //charger les anciens favs
-            QJsonArray favsArray = getFavs();
-
-            QJsonObject newFavs;
-            newFavs.insert("type","folder");
-            newFavs.insert("url",bf->getFolder());
-            favsArray.append(newFavs);
-
-            setFavs(favsArray);
-        }
-
         if (!openingRecent)
             {
             //recentlist
@@ -136,23 +131,6 @@ void Opener::on_file_clicked()
         openUrls = QFileDialog::getOpenFileUrls(this,"Ouvrir des fichiers");
         if (openUrls.count() > 0)
         {
-            if (addToFavs->isChecked())
-            {
-                //charger les anciens favs
-                QJsonArray favsArray = getFavs();
-
-                QJsonObject newFavs;
-                newFavs.insert("type","files");
-                QJsonArray fichiers;
-                foreach(QUrl url,openUrls)
-                {
-                    fichiers.append(QJsonValue(url.toString()));
-                }
-                newFavs.insert("url",fichiers);
-                favsArray.append(newFavs);
-
-                setFavs(favsArray);
-            }
             //recentlist
             //load recents
             QJsonArray recentArray = getRecents();
@@ -195,18 +173,6 @@ void Opener::on_stream_clicked()
         QUrl url(u);
         if (url.isValid())
         {
-            if (addToFavs->isChecked())
-            {
-                //charger les anciens favs
-                QJsonArray favsArray = getFavs();
-
-                QJsonObject newFavs;
-                newFavs.insert("type","stream");
-                newFavs.insert("url",url.toString());
-                favsArray.append(newFavs);
-
-                setFavs(favsArray);
-            }
             //recentlist
             //load recents
             QJsonArray recentArray = getRecents();
@@ -376,6 +342,20 @@ void Opener::keyPressEvent(QKeyEvent *event)
             }
         event->accept();
         }
+        else if (recentList->hasFocus())
+        {
+            while(recentList->selectedItems().count() > 0)
+            {
+                int row = recentList->row(recentList->selectedItems().first());
+                QListWidgetItem *item = recentList->takeItem(row);
+                QJsonArray recent;
+                recent = getRecents();
+                recent.removeAt(row);
+                setRecent(recent);
+                delete item;
+            }
+        event->accept();
+        }
     }
     else if (event->key() == Qt::Key_Return)
     {
@@ -449,3 +429,20 @@ void Opener::on_cancelButton_clicked()
     setCursor(Qt::ArrowCursor);
 }
 
+void Opener::on_addToFavs_clicked()
+{
+    //charger les anciens favs
+    QJsonArray favsArray = getFavs();
+    //charger les récents
+    QJsonArray recent = getRecents();
+
+    //pour chaque élément de la sélection
+    foreach(QListWidgetItem *item,recentList->selectedItems())
+    {
+        QJsonObject newFav = recent.at(recentList->row(item)).toObject();
+        favsArray.append(newFav);
+    }
+    setFavs(favsArray);
+
+    refreshFavs();
+}
