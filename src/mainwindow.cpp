@@ -45,6 +45,8 @@ MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
     player->setPlaylist(playlist);
     connect(player,SIGNAL(durationChanged(qint64)),this,SLOT(mediaDurationChanged(qint64)));
     connect(playlist,SIGNAL(currentIndexChanged(int)),this,SLOT(mediaChanged(int)));
+    connect(playlist,SIGNAL(mediaInserted(int,int)),this,SLOT(mediaInserted(int,int)));
+    connect(playlist,SIGNAL(mediaRemoved(int,int)),this,SLOT(mediaRemoved(int,int)));
     connect(player,SIGNAL(positionChanged(qint64)),this,SLOT(mediaPositionChanged(qint64)));
     connect(player,SIGNAL(stateChanged(QMediaPlayer::State)),this,SLOT(mediaStateChanged(QMediaPlayer::State)));
     connect(volumeSlider,SIGNAL(valueChanged(int)),this,SLOT(setVolume(int)));
@@ -183,18 +185,21 @@ void MainWindow::addFiles(QList<QUrl> fichiers)
 
 void MainWindow::addFile(QUrl fichier)
 {
-
     if (fichier.isLocalFile())
     {
-        if(fichier.toString().toLower().endsWith(".m3u"))playlist->load(fichier);
-        else playlist->addMedia(QMediaContent(fichier));
-        playlistTable->addItem(fichier.toLocalFile().section("/",-1));
+        if (fichier.toString().toLower().endsWith(".m3u"))
+        {
+            playlist->load(fichier);
+        }
+        else
+        {
+            playlist->addMedia(fichier);
+        }
     }
     else
     {
         if(fichier.toString().toLower().endsWith(".m3u"))playlist->load(QNetworkRequest(fichier));
         else playlist->addMedia(QMediaContent(QNetworkRequest(fichier)));
-        playlistTable->addItem(fichier.toString(QUrl::PrettyDecoded | QUrl::RemovePassword));
     }
 }
 
@@ -217,7 +222,6 @@ void MainWindow::on_actionOuvrir_triggered()
         if (o.exec())
         {
             //vider la playlist et le tableau
-            playlistTable->clear();
             playlist->clear();
             //ajoute
             addFiles(o.getUrls());
@@ -247,12 +251,8 @@ void MainWindow::on_actionLecture_triggered(bool checked)
     if (progra) return;
 
         if (playlist->currentIndex() < 0 && playlist->mediaCount() > 0) playlist->setCurrentIndex(0);
-        if (checked && playlist->mediaCount() > 0 && playlistTable->count() > 0)
+        if (checked && playlist->mediaCount() > 0)
         {
-            QFont currentFont = playlistTable->item(playlist->currentIndex())->font();
-            currentFont.setBold(true);
-            playlistTable->item(playlist->currentIndex())->setFont(currentFont);
-            setWindowTitle(playlistTable->item(playlist->currentIndex())->text());
             player->play();
         }
         else if (checked)
@@ -292,11 +292,7 @@ void MainWindow::on_actionSuivant_triggered()
 void MainWindow::on_playlistTable_itemDoubleClicked(QListWidgetItem *item)
 {
     playlist->setCurrentIndex(playlistTable->currentRow());
-    //lance la lecture
-    QFont currentFont = item->font();
-    currentFont.setBold(true);
-    item->setFont(currentFont);
-    setWindowTitle(item->text());
+
     player->play();
 }
 
@@ -415,6 +411,23 @@ void MainWindow::mediaChanged(int position)
     {
         setWindowTitle("Duduf Media Player");
         setWindowIcon(QIcon(":/icones/stop"));
+    }
+}
+
+void MainWindow::mediaInserted(int start,int end)
+{
+    for (int i = start; i<= end;i++)
+    {
+        playlistTable->insertItem(i,playlist->media(i).canonicalUrl().fileName());
+    }
+}
+
+void MainWindow::mediaRemoved(int start ,int end)
+{
+    for (int i = end; i>= start;i--)
+    {
+        QListWidgetItem *item = playlistTable->takeItem(i);
+        delete item;
     }
 }
 
@@ -705,11 +718,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     {
         if (!actionMode->isChecked())
         {
-            while(playlistTable->selectedItems().count() > 0)
+            foreach(QListWidgetItem *item,playlistTable->selectedItems())
             {
-                playlist->removeMedia(playlistTable->row(playlistTable->selectedItems().first()));
-                QListWidgetItem *item = playlistTable->takeItem(playlistTable->row(playlistTable->selectedItems().first()));
-                delete item;
+                playlist->removeMedia(playlistTable->row(item));
             }
             event->accept();
         }
