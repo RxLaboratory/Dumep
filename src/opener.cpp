@@ -3,6 +3,7 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QtDebug>
+#include "params.h"
 
 Opener::Opener(QWidget *parent) :
     QDialog(parent)
@@ -127,41 +128,46 @@ void Opener::setTitle(QString t)
 void Opener::on_file_clicked()
 {
     //demande les fichiers
+    Params p;
 
-        openUrls = QFileDialog::getOpenFileUrls(this,"Ouvrir des fichiers");
-        if (openUrls.count() > 0)
+    openUrls = QFileDialog::getOpenFileUrls(this,"Ouvrir des fichiers",QUrl::fromLocalFile(p.getLastBrowsed()));
+    if (openUrls.count() > 0)
+    {
+        //recentlist
+        //load recents
+        QJsonArray recentArray = getRecents();
+        QJsonObject newRecent;
+        newRecent.insert("type","files");
+        QJsonArray fichiers;
+        foreach(QUrl url,openUrls)
         {
-            //recentlist
-            //load recents
-            QJsonArray recentArray = getRecents();
-
-            QJsonObject newRecent;
-            newRecent.insert("type","files");
-            QJsonArray fichiers;
-            foreach(QUrl url,openUrls)
-            {
-                fichiers.append(QJsonValue(url.toString()));
-            }
-            newRecent.insert("url",fichiers);
-            recentArray.prepend(newRecent);
-            if (recentArray.count() > 10)
-            {
-                recentArray.removeLast();
-            }
-
-            setRecent(recentArray);
-            accept();
+            fichiers.append(QJsonValue(url.toString()));
         }
+        newRecent.insert("url",fichiers);
+        recentArray.prepend(newRecent);
+        if (recentArray.count() > 10)
+        {
+            recentArray.removeLast();
+        }
+        setRecent(recentArray);
+
+        //enregistrer le dossier utilisé
+        QString d = openUrls[0].path().section("/",1,-2);
+        p.setLastBrowsed(d);
+
+        accept();
+    }
 
 }
 
 void Opener::on_folder_clicked()
 {
-
-    QString dossier = QFileDialog::getExistingDirectory(this,"Ouvrir un dossier");
+    Params p;
+    QString dossier = QFileDialog::getExistingDirectory(this,"Ouvrir un dossier",p.getLastBrowsed());
     if (dossier != "")
     {
         loadFolder(dossier);
+        p.setLastBrowsed(dossier.section("/",0,-2));
     }
 }
 

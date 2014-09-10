@@ -19,6 +19,7 @@ Params::Params(QWidget *parent) :
     vol = params.value("volume").toInt();
     languageFile = params.value("language").toString();
     if (params.value("volume").isUndefined()) vol = 100;
+    lastBrowsed = params.value("lastBrowsed").toString();
 
     setStyle(style);
     setMime(m);
@@ -34,6 +35,7 @@ void Params::on_buttonBox_accepted()
     params.insert("checkMimeType",getMime());
     params.insert("language",languageFile);
     params.insert("volume",vol);
+    params.insert("lastBrowsed",lastBrowsed);
     setParams(params);
     accept();
 }
@@ -60,6 +62,20 @@ void Params::on_comboBox_activated(int index)
     {
         buttonStyleAuto = false;
         toolButton->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+    }
+}
+
+void Params::on_languageBox_activated(int index)
+{
+    if (index == 0) languageFile = "languages/dumep_fr";
+    else if (index == 1) languageFile = "languages/dumep_en";
+    else
+    {
+        QString l = QFileDialog::getOpenFileName(this,tr("Choisir un fichier de traduction"),QString(),tr("Fichier de langue (*.qm)"));
+        if (l!="")
+        {
+            languageFile = l;
+        }
     }
 }
 
@@ -140,6 +156,17 @@ QString Params::getLanguage()
     return languageFile;
 }
 
+void Params::setLastBrowsed(QString l)
+{
+    lastBrowsed = l;
+    on_buttonBox_accepted();
+}
+
+QString Params::getLastBrowsed()
+{
+    return lastBrowsed;
+}
+
 //loading and saving params
 
 QJsonObject Params::getParams()
@@ -163,6 +190,7 @@ QJsonObject Params::getParams()
         params.insert("buttonStyle",Qt::ToolButtonFollowStyle);
         params.insert("checkMimeType",false);
         params.insert("volume",100);
+        params.insert("lastBrowsed","");
         params.insert("language","languages/dumep_" + QLocale::system().name());
         paramsDoc.setObject(params);
         if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))
@@ -201,16 +229,3 @@ void Params::resizeEvent(QResizeEvent*)
     }
 }
 
-void Params::on_languageBox_activated(int index)
-{
-    if (index == 0) languageFile = "languages/dumep_fr";
-    else if (index == 1) languageFile = "languages/dumep_en";
-    else
-    {
-        QString l = QFileDialog::getOpenFileName(this,tr("Choisir un fichier de traduction"),QString(),tr("Fichier de langue (*.qm)"));
-        if (l!="")
-        {
-            languageFile = l;
-        }
-    }
-}

@@ -19,6 +19,8 @@ public:
     int getVolume();
     void setLanguage(QString l);
     QString getLanguage();
+    void setLastBrowsed(QString l);
+    QString getLastBrowsed();
 private slots:
     void on_comboBox_activated(int index);
     void on_buttonBox_accepted();
@@ -31,6 +33,7 @@ private:
     void setParams(QJsonObject p);
     int vol;
     QString languageFile;
+    QString lastBrowsed;
 protected:
     void resizeEvent(QResizeEvent*);
 
