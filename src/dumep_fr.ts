@@ -248,153 +248,153 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="167"/>
+        <location filename="mainwindow.ui" line="170"/>
         <source>%</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="170"/>
+        <location filename="mainwindow.ui" line="173"/>
         <source>Buffer : </source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="192"/>
+        <location filename="mainwindow.ui" line="195"/>
         <source>Rien à lire...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="205"/>
+        <location filename="mainwindow.ui" line="208"/>
         <source>--:--</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="251"/>
+        <location filename="mainwindow.ui" line="254"/>
         <source>Volume :</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="315"/>
+        <location filename="mainwindow.ui" line="318"/>
         <source>Quitter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="318"/>
+        <location filename="mainwindow.ui" line="321"/>
         <source>Ctrl+Q</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="330"/>
+        <location filename="mainwindow.ui" line="333"/>
         <source>Ouvrir...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="333"/>
+        <location filename="mainwindow.ui" line="336"/>
         <source>Ctrl+O</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="348"/>
+        <location filename="mainwindow.ui" line="351"/>
         <source>Lecture</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="351"/>
+        <location filename="mainwindow.ui" line="354"/>
         <source>Space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="363"/>
+        <location filename="mainwindow.ui" line="366"/>
         <source>Stop</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="366"/>
+        <location filename="mainwindow.ui" line="369"/>
         <source>Ctrl+Space</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="378"/>
+        <location filename="mainwindow.ui" line="381"/>
         <source>Suivant</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="381"/>
+        <location filename="mainwindow.ui" line="384"/>
         <source>N</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="393"/>
+        <location filename="mainwindow.ui" line="396"/>
         <source>Précédent</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="396"/>
+        <location filename="mainwindow.ui" line="399"/>
         <source>B</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="411"/>
+        <location filename="mainwindow.ui" line="414"/>
         <source>Aléatoire</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="414"/>
+        <location filename="mainwindow.ui" line="417"/>
         <source>Ctrl+M</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="426"/>
+        <location filename="mainwindow.ui" line="429"/>
         <source>Ajouter...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="429"/>
+        <location filename="mainwindow.ui" line="432"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="441"/>
+        <location filename="mainwindow.ui" line="444"/>
         <source>Boucle</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="444"/>
+        <location filename="mainwindow.ui" line="447"/>
         <source>Ctrl+L</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="459"/>
+        <location filename="mainwindow.ui" line="462"/>
         <source>Mode réduit</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="471"/>
+        <location filename="mainwindow.ui" line="474"/>
         <source>Image Suivante</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="474"/>
-        <location filename="mainwindow.ui" line="489"/>
+        <location filename="mainwindow.ui" line="477"/>
+        <location filename="mainwindow.ui" line="492"/>
         <source>Image</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="486"/>
+        <location filename="mainwindow.ui" line="489"/>
         <source>Image précédente</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="498"/>
+        <location filename="mainwindow.ui" line="501"/>
         <source>Préférences</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="507"/>
+        <location filename="mainwindow.ui" line="510"/>
         <source>A Propos</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="216"/>
+        <location filename="mainwindow.cpp" line="221"/>
         <source>Ouvrir</source>
         <translation type="unfinished"></translation>
     </message>
@@ -407,37 +407,47 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="63"/>
+        <location filename="opener.ui" line="201"/>
         <source>Ajouter aux favoris</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="89"/>
+        <location filename="opener.ui" line="81"/>
         <source>Fichiers...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="112"/>
+        <location filename="opener.ui" line="104"/>
         <source>Dossiers...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="135"/>
+        <location filename="opener.ui" line="127"/>
         <source>Streaming...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="168"/>
+        <location filename="opener.ui" line="172"/>
         <source>Récemment lu :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="195"/>
+        <location filename="opener.ui" line="231"/>
         <source>Favoris :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="opener.ui" line="244"/>
+        <location filename="opener.ui" line="265"/>
+        <source>Monter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="opener.ui" line="294"/>
+        <source>Descendre</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="opener.ui" line="357"/>
         <source>Annuler</source>
         <translation type="unfinished"></translation>
     </message>
@@ -521,12 +531,12 @@ utiliser le type MIME pour vérifier les formats de fichiers.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="params.cpp" line="210"/>
+        <location filename="params.cpp" line="74"/>
         <source>Choisir un fichier de traduction</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="params.cpp" line="210"/>
+        <location filename="params.cpp" line="74"/>
         <source>Fichier de langue (*.qm)</source>
         <translation type="unfinished"></translation>
     </message>
