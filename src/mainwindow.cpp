@@ -382,7 +382,7 @@ void MainWindow::on_actionPr_f_rences_triggered()
 
 void MainWindow::on_actionA_Propos_triggered()
 {
-    About about(this);
+    About about(0);
     about.exec();
 }
 
