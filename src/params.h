@@ -26,7 +26,6 @@ public:
 private slots:
     void on_comboBox_activated(int index);
     void on_buttonBox_accepted();
-
     void on_languageBox_activated(int index);
 
 private:
