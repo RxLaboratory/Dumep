@@ -85,21 +85,8 @@ void Opener::folderUrls()
     if (openUrls.count() > 0)
     {
         if (!openingRecent)
-            {
-            //recentlist
-            //load recents
-            QJsonArray recentArray = getRecents();
-
-            QJsonObject newRecent;
-            newRecent.insert("type","folder");
-            newRecent.insert("url",bf->getFolder());
-            recentArray.prepend(newRecent);
-            if (recentArray.count() > 10)
-            {
-                recentArray.removeLast();
-            }
-
-            setRecent(recentArray);
+        {
+            addRecent("folder");
         }
         setCursor(Qt::ArrowCursor);
         buttonsWidget->setEnabled(true);
@@ -133,23 +120,7 @@ void Opener::on_file_clicked()
     openUrls = QFileDialog::getOpenFileUrls(this,"Ouvrir des fichiers",QUrl::fromLocalFile(p.getLastBrowsed()));
     if (openUrls.count() > 0)
     {
-        //recentlist
-        //load recents
-        QJsonArray recentArray = getRecents();
-        QJsonObject newRecent;
-        newRecent.insert("type","files");
-        QJsonArray fichiers;
-        foreach(QUrl url,openUrls)
-        {
-            fichiers.append(QJsonValue(url.toString()));
-        }
-        newRecent.insert("url",fichiers);
-        recentArray.prepend(newRecent);
-        if (recentArray.count() > 10)
-        {
-            recentArray.removeLast();
-        }
-        setRecent(recentArray);
+        addRecent("files");
 
         //enregistrer le dossier utilisé
         QString d = openUrls[0].path().section("/",1,-2);
@@ -179,21 +150,11 @@ void Opener::on_stream_clicked()
         QUrl url(u);
         if (url.isValid())
         {
-            //recentlist
-            //load recents
-            QJsonArray recentArray = getRecents();
-
-            QJsonObject newRecent;
-            newRecent.insert("type","stream");
-            newRecent.insert("url",url.toString());
-            recentArray.prepend(newRecent);
-            if (recentArray.count() > 10)
-            {
-                recentArray.removeLast();
-            }
-            setRecent(recentArray);
-
             openUrls << url;
+
+            addRecent("stream");
+
+
             accept();
         }
         else
@@ -212,6 +173,54 @@ void Opener::loadFolder(QString dossier)
     setCursor(Qt::WaitCursor);
     bf->setFolder(dossier);
     bf->start();
+}
+
+void Opener::addRecent(QString type)
+{
+    //recent
+    QJsonArray recentArray = getRecents();
+    QJsonObject newRecent;
+    if (type == "files")
+    {
+        newRecent.insert("type","files");
+        QJsonArray fichiers;
+        foreach(QUrl url,openUrls)
+        {
+            fichiers.append(QJsonValue(url.toString()));
+        }
+        newRecent.insert("url",fichiers);
+    }
+    else if (type == "folder")
+    {
+        newRecent.insert("type","folder");
+        newRecent.insert("url",bf->getFolder());
+    }
+    else if (type == "stream")
+    {
+        newRecent.insert("type","stream");
+        newRecent.insert("url",openUrls[0].toString());
+    }
+    if (recentArray.contains(newRecent))
+    {
+        for(int i =0;i<recentArray.count();i++)
+        {
+            if (recentArray[i] == newRecent)
+            {
+                recentArray.removeAt(i);
+                break;
+            }
+        }
+    }
+
+    recentArray.prepend(newRecent);
+
+    Params p;
+    if (recentArray.count() > p.getNumRecents())
+    {
+        recentArray.removeLast();
+    }
+
+    setRecent(recentArray);
 }
 
 QJsonArray Opener::getFavs()
@@ -292,6 +301,7 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
         {
             openUrls << QUrl(urls[i].toString());
         }
+        addRecent("files");
         accept();
     }
     else if (open.value("type").toString() == "folder")
@@ -301,6 +311,7 @@ void Opener::on_favsList_itemDoubleClicked(QListWidgetItem *item)
     else
     {
         openUrls << QUrl(open.value("url").toString());
+        addRecent("stream");
         accept();
     }
 }

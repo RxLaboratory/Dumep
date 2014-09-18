@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>396</width>
-    <height>274</height>
+    <height>318</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -143,6 +143,34 @@
         </property>
         <property name="autoRaise">
          <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_4">
+     <property name="title">
+      <string/>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QSpinBox" name="numRecentsSpinner">
+        <property name="frame">
+         <bool>false</bool>
+        </property>
+        <property name="suffix">
+         <string> fichiers</string>
+        </property>
+        <property name="prefix">
+         <string>Fichiers récemment ouverts : se souvenir de </string>
+        </property>
+        <property name="value">
+         <number>10</number>
         </property>
        </widget>
       </item>

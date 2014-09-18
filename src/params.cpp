@@ -22,6 +22,7 @@ Params::Params(QWidget *parent) :
     lastBrowsed = params.value("lastBrowsed").toString();
 
     setStyle(style);
+    setNumRecents(params.value("numRecents").toInt());
     setMime(m);
     setLanguage(languageFile);
 
@@ -36,6 +37,7 @@ void Params::on_buttonBox_accepted()
     params.insert("language",languageFile);
     params.insert("volume",vol);
     params.insert("lastBrowsed",lastBrowsed);
+    params.insert("numRecents",getNumRecents());
     setParams(params);
     accept();
 }
@@ -167,6 +169,16 @@ QString Params::getLastBrowsed()
     return lastBrowsed;
 }
 
+void Params::setNumRecents(int n)
+{
+    numRecentsSpinner->setValue(n);
+}
+
+int Params::getNumRecents()
+{
+    return numRecentsSpinner->value();
+}
+
 //loading and saving params
 
 QJsonObject Params::getParams()
@@ -191,6 +203,7 @@ QJsonObject Params::getParams()
         params.insert("checkMimeType",false);
         params.insert("volume",100);
         params.insert("lastBrowsed","");
+        params.insert("numRecents",10);
         params.insert("language","languages/dumep_" + QLocale::system().name());
         paramsDoc.setObject(params);
         if (paramsFile.open(QIODevice::WriteOnly | QIODevice::Text))

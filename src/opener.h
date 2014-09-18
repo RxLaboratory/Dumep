@@ -40,6 +40,7 @@ private:
     void setFavs(QJsonArray favsArray);
     QJsonArray getRecents();
     void setRecent(QJsonArray recentArray);
+    void addRecent(QString type);
     BrowserThread *bf;
     void loadFolder(QString dossier);
     bool openingRecent;

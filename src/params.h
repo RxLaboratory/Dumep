@@ -21,6 +21,8 @@ public:
     QString getLanguage();
     void setLastBrowsed(QString l);
     QString getLastBrowsed();
+    void setNumRecents(int n);
+    int getNumRecents();
 private slots:
     void on_comboBox_activated(int index);
     void on_buttonBox_accepted();
