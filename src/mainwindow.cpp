@@ -367,9 +367,7 @@ void MainWindow::on_actionPr_f_rences_triggered()
         if (style == Qt::ToolButtonFollowStyle)
         {
             buttonStyleAuto = true;
-            if (this->width() > 1270) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-            else if (this->width() > 760) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
-            else mainToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
+            resizeEvent(&QResizeEvent(this->size(),this->size()));
         }
         else
         {
@@ -784,8 +782,14 @@ void MainWindow::resizeEvent(QResizeEvent*)
 {
     if (buttonStyleAuto)
     {
-        if (this->width() > 1270) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-        else if (this->width() > 750) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+        int max = 1270;
+        int min = 750;
+#ifdef Q_OS_LINUX
+        max = 1500;
+        min = 990;
+#endif
+        if (this->width() > max) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
+        else if (this->width() > min) mainToolBar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
         else mainToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     }
 }
