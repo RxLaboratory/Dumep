@@ -464,7 +464,9 @@ void MainWindow::mediaDurationChanged(qint64 duration)
         playControls->setEnabled(true);
     }
     seekBar->setMaximum(duration);
+#ifdef Q_OS_WIN
     taskbarProgress->setMaximum(duration);
+#endif
 }
 
 void MainWindow::mediaPositionChanged(qint64 position)
