@@ -222,9 +222,12 @@ void MainWindow::on_actionOuvrir_triggered()
         if (o.exec())
         {
             //vider la playlist et le tableau
+            bool playing = player->state() == QMediaPlayer::PlayingState;
+            player->stop();
             playlist->clear();
             //ajoute
             addFiles(o.getUrls());
+            if (playing) player->play();
         }
 
 }
