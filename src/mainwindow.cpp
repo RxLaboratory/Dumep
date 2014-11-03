@@ -23,6 +23,8 @@ MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
     progra = true;
     setupUi(this);
 
+    ctrlPressed = false;
+
     //widgets and players
     video = new VideoWidget(this);
     player = new QMediaPlayer(this);
@@ -62,6 +64,7 @@ MainWindow::MainWindow(QTranslator *t,int argc, char *argv[], QWidget *parent) :
 
     //showing only the playlist
     splitter->setSizes(QList<int>() << 0 << 200);
+    searchField->hide();
 
     progra = false;
 
@@ -387,6 +390,55 @@ void MainWindow::on_actionA_Propos_triggered()
     About about(0);
     about.exec();
 }
+
+void MainWindow::on_search_textEdited(const QString &arg1)
+{
+    if (playlistTable->count() == 0) return;
+    searchResult = playlistTable->findItems(arg1,Qt::MatchContains);
+    if (searchResult.count() > 0)
+    {
+        playlistTable->setCurrentItem(searchResult[0]);
+        currentSearchResult = 0;
+    }
+}
+
+void MainWindow::on_searchPrevious_clicked()
+{
+    if (searchResult.count() < 1) return;
+    if (currentSearchResult > 0 && searchResult.count() > currentSearchResult)
+    {
+        playlistTable->setCurrentItem(searchResult[currentSearchResult-1]);
+        currentSearchResult--;
+    }
+    else
+    {
+        playlistTable->setCurrentItem(searchResult[searchResult.count()-1]);
+        currentSearchResult = searchResult.count()-1;
+    }
+}
+
+void MainWindow::on_searchNext_clicked()
+{
+    if (searchResult.count() < 1) return;
+    if (currentSearchResult < searchResult.count()-1)
+    {
+        playlistTable->setCurrentItem(searchResult[currentSearchResult+1]);
+        currentSearchResult++;
+    }
+    else
+    {
+        playlistTable->setCurrentItem(searchResult[0]);
+        currentSearchResult = 0;
+    }
+}
+
+void MainWindow::on_searchButton_toggled(bool checked)
+{
+    if (checked) searchField->show();
+    else searchField->hide();
+}
+
+
 
 //PLAYER SLOTS
 
@@ -797,3 +849,4 @@ void MainWindow::resizeEvent(QResizeEvent*)
         else mainToolBar->setToolButtonStyle(Qt::ToolButtonIconOnly);
     }
 }
+

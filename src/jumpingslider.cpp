@@ -8,6 +8,7 @@ JumpingSlider::JumpingSlider(QWidget *parent) :
 {
     setTextVisible(false);
     setStyle(QStyleFactory::create("Fusion"));
+    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Preferred);
 }
 
 void JumpingSlider::mouseMoveEvent ( QMouseEvent * event )

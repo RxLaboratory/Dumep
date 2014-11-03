@@ -56,6 +56,10 @@ private slots:
     void setVolume(int v);
     void mediaInserted(int start,int end);
     void mediaRemoved(int start,int end);
+    void on_search_textEdited(const QString &arg1);
+    void on_searchPrevious_clicked();
+    void on_searchNext_clicked();
+    void on_searchButton_toggled(bool checked);
 
 private:
     QString msToTC(qint64 ms); //converts milliseconds to String Timecode '00:00.00'
@@ -71,6 +75,9 @@ private:
     qreal frameRate;
     QJsonObject getParams();
     bool buttonStyleAuto;
+    QList<QListWidgetItem *> searchResult;
+    int currentSearchResult;
+    bool ctrlPressed;
 #ifdef Q_OS_WIN
     QWinTaskbarButton *taskbarButton;
     QWinTaskbarProgress *taskbarProgress;

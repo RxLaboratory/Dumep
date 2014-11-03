@@ -4,7 +4,7 @@ About::About(QWidget *parent) :
     QDialog(parent)
 {
     setupUi(this);
-    QString version = "1.0 %1 %2";
+    QString version = "1.1 %1 %2";
     QString texteVersion = versionLabel->text() + version;
 #ifdef Q_OS_WIN64
     texteVersion = texteVersion.arg("Win");

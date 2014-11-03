@@ -23,5 +23,6 @@
         <file alias="cancel">icones/cancel.png</file>
         <file alias="down">icones/down.png</file>
         <file alias="up">icones/up.png</file>
+        <file alias="search">icones/search.png</file>
     </qresource>
 </RCC>
